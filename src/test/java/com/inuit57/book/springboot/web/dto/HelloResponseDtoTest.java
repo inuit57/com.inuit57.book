@@ -20,5 +20,8 @@ public class HelloResponseDtoTest {
         assertThat(dto.getAmount()).isEqualTo(amount);
     }
 
-
+    @Test
+    public void HelloDto가_리턴된다() throws Exception {
+        String hello = "hello";
+    }
 }

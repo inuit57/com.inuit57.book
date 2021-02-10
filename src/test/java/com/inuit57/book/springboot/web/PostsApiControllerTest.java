@@ -99,4 +99,44 @@ public class PostsApiControllerTest {
 
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
+
+    @Test
+    public void Posts_삭제된다() throws Exception {
+        //given
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                .title("title")
+                .content("content")
+                .author("author").build());
+
+        Long deleteId = savedPosts.getId();
+
+        String expectedTitle = "title2";
+        String expectedContent = "content2";
+
+        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder().title(expectedTitle).content(expectedContent).build();
+
+
+        String url = "http://localhost:" + port + "/api/v1/posts/"+ deleteId;
+
+        HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+
+        //when
+        //ResponseEntity<Long> responseEntity = restTemplate.delete(url,HttpMethod.DELETE);
+        //restTemplate.delete(url);
+        // delete는 반환값을 가지지 않는다. 확인하려면  exchange함수를 사용해야 한다.
+
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, Long.class);
+
+        //then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+
+        List<Posts> all = postsRepository.findAll();
+        assertThat(all.isEmpty()) ; // 비었는지 검사.
+//        assertThat(all.get(0).getTitle()).isEqualTo(null);
+//
+//        assertThat(all.get(0).getContent()).isEqualTo(null);
+    }
+
 }

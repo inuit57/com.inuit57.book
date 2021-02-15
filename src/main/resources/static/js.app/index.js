@@ -73,9 +73,6 @@ var main = {
         });
      }
 
-
-
-
 }
 
 main.init();

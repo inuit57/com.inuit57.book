@@ -1,2 +1,0 @@
-com/inuit57/book/springboot/web/HelloControllerTest.java
- com.inuit57.book.springboot.web.HelloControllerTest
